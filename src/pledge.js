@@ -21,18 +21,29 @@ $Promise.prototype.then = function(s, e){
 		errorCb: e
 	}
 	this._handlerGroups.push(object);
-	if(this._handlerGroups.length > 0){
+	if(this._handlerGroups.length > 0 && this._state !== 'pending'){
 		this.callHandlers();
 	}
 }
 // ************************
-$Promise.prototype.callHandlers = function(){
-	// while (this._handlerGroups.length > 0){
-		var handlerGroup;
+Deferral.prototype.resolve = function(value) {
+	if(this.$promise._state === "pending") {
+		this.$promise._state = "fulfilled";
+		this.$promise._value = value;
 
-		if(this._state !== "pending") {
-			handlerGroup = this._handlerGroups.shift();
+		if(this.$promise._handlerGroups.length > 0){
+			this.$promise.callHandlers();
 		}
+	}
+}
+// ************************
+$Promise.prototype.callHandlers = function(){
+	var handlerGroup;
+	while (this._handlerGroups.length > 0){
+
+		// if(this._state !== "pending") {
+			handlerGroup = this._handlerGroups.shift();
+		// }
 
 		if (this._state === 'fulfilled' && handlerGroup){
 			handlerGroup.successCb(this._value);
@@ -40,24 +51,14 @@ $Promise.prototype.callHandlers = function(){
 			handlerGroup.errorCb(this._value);
 		}
 
-	// }
+	}
 }
+
 // ************************
 function Deferral() {
 	this.$promise = new $Promise;
 }
 
-// ************************
-Deferral.prototype.resolve = function(value) {
-	console.log(this.$promise._handlerGroups)
-	if(this.$promise._state === "pending") {
-		this.$promise._state = "fulfilled";
-		this.$promise._value = value;
-		if(this.$promise._handlerGroups.length > 0){
-			this.$promise.callHandlers();
-		}
-	}
-}
 // ************************
 Deferral.prototype.reject = function(reason) {
 	if(this.$promise._state === "pending") {
