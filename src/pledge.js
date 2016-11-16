@@ -9,11 +9,30 @@ Promises Workshop: build the pledge.js deferral-style promise library
 function $Promise() {
 	this._state = 'pending';
 	this._value;
+	this._handlerGroups = [];
+}
+
+$Promise.prototype.then = function(s, e){
+	if (typeof s !== 'function') { s = false };
+	if (typeof e !== 'function') { e = false };
+
+	var object = {
+		successCb:	s,
+		errorCb: e
+	}
+	this._handlerGroups.push(object)
+}
+
+$Promise.prototype.callHandlers = function(){
+
+
+	this._handlerGroups[0].successCb()
 }
 
 function Deferral() {
 	this.$promise = new $Promise;
 }
+
 
 Deferral.prototype.resolve = function(value) {
 	if(this.$promise._state === "pending") {
