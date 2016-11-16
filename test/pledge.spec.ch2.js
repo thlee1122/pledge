@@ -127,7 +127,7 @@ describe('A promise', function(){
       expect( setFoo10 ).toHaveBeenCalled();
     });
 
-    xit('calls all its success handlers in order one time when fulfilled', function(){
+    it('calls all its success handlers in order one time when fulfilled', function(){
       promiseForNum.then( setFoo10 );
       promiseForNum.then( addToFoo );
       numDeferral.resolve( 25 );
