@@ -24,9 +24,12 @@ $Promise.prototype.then = function(s, e){
 }
 
 $Promise.prototype.callHandlers = function(){
-
-
-	this._handlerGroups[0].successCb()
+	// console.log(this._handlerGroups)
+	if (this._state === 'fulfilled'){
+		this._handlerGroups[0].successCb()
+	} else if (this._state === 'rejected'){
+			this._handlerGroups[0].errorCb()
+	}
 }
 
 function Deferral() {
@@ -35,9 +38,11 @@ function Deferral() {
 
 
 Deferral.prototype.resolve = function(value) {
+	console.log(this.$promise._handlerGroups)
 	if(this.$promise._state === "pending") {
 		this.$promise._state = "fulfilled";
 		this.$promise._value = value;
+		// this.$promise.callHandlers()
 	}
 }
 
