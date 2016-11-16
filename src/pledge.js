@@ -7,13 +7,18 @@ Promises Workshop: build the pledge.js deferral-style promise library
 const myDeferral = $q.defer();
 
 function $Promise() {
-
+	this._state = 'pending';
 }
 
 function Deferral() {
 	this.$promise = new $Promise;
 }
 
+Deferral.prototype.resolve = function() {
+	if(this.$promise._state === "pending") {
+		this.$promise._state = "fulfilled";
+	}
+}
 
 function defer() {
 	return new Deferral;

@@ -83,7 +83,7 @@ describe('Resolving through a deferral', function(){
 
   // Reminder: common class methods should be defined on a prototype.
 
-  xit('changes its promise state to "fulfilled"', function(){
+  it('changes its promise state to "fulfilled"', function(){
     /* Why not "resolved"? This will be covered in detail in Ch. 5, but
     for now just know that strict P/A+ terminology draws a distinction
     between "resolution" and "fulfillment." Normally a resolved promise
