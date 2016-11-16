@@ -20,15 +20,23 @@ $Promise.prototype.then = function(s, e){
 		successCb:	s,
 		errorCb: e
 	}
-	this._handlerGroups.push(object)
+	this._handlerGroups.push(object);
+
+	this.callHandlers();
 }
 
 $Promise.prototype.callHandlers = function(){
-	// console.log(this._handlerGroups)
+	// console.log(this._handlerGroups
+	var handlerGroup;
+
+	if(this._state !== "pending") {
+		handlerGroup = this._handlerGroups.shift();
+	}
+
 	if (this._state === 'fulfilled'){
-		this._handlerGroups[0].successCb()
+		handlerGroup.successCb(this._value);
 	} else if (this._state === 'rejected'){
-			this._handlerGroups[0].errorCb()
+		handlerGroup.errorCb(this._value);
 	}
 }
 
