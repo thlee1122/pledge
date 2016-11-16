@@ -41,7 +41,7 @@ describe('The pledge.js library', function(){
     expect( typeof Deferral ).toBe( 'function' );
   });
 
-  xit('has a `defer` function that returns unique deferrals', function(){
+  it('has a `defer` function that returns unique deferrals', function(){
     var deferral1 = defer();
     var deferral2 = defer();
     expect( deferral1 instanceof Deferral ).toBe( true );
@@ -52,7 +52,7 @@ describe('The pledge.js library', function(){
 
 describe('A deferral', function(){
 
-  xit('is associated with a unique `$promise`', function(){
+  it('is associated with a unique `$promise`', function(){
     var myDeferral = defer();
     var promise1 = myDeferral.$promise;
     var promise2 = defer().$promise;
@@ -64,7 +64,7 @@ describe('A deferral', function(){
 
 describe("A deferral's associated promise", function(){
 
-  xit('starts with "pending" state', function(){
+  it('starts with "pending" state', function(){
     var deferral = defer();
     var promise = deferral.$promise;
     expect( promise._state ).toBe( 'pending' );
